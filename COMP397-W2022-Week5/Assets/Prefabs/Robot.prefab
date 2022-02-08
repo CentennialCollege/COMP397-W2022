@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 931910233595226089}
   m_Layer: 8
   m_Name: Robot
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -240,6 +240,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6773920157360007146, guid: e26ab1e2d848966438f70384ebfc8b33,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e26ab1e2d848966438f70384ebfc8b33, type: 3}
 --- !u!4 &4687365624713570289 stripped
@@ -248,3 +253,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1461069403563006625}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5352262762172890443 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6773920157360007146, guid: e26ab1e2d848966438f70384ebfc8b33,
+    type: 3}
+  m_PrefabInstance: {fileID: 1461069403563006625}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1030067034447719593
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352262762172890443}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.01993587
+  m_Height: 0.038115263
+  m_Direction: 2
+  m_Center: {x: 0.0006967227, y: 0.0065656286, z: 0.0077503845}
+--- !u!114 &682852501824602232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352262762172890443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 585a717faef71d040ba157ad212db2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controls: {fileID: 0}
