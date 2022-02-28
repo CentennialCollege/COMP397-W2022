@@ -12,49 +12,65 @@ public class MapGenerator : MonoBehaviour
     public int width = 2;
     [Range(2, 30)] 
     public int depth = 2;
+    public Transform parent;
 
     [Header("Generated Tiles")] 
     public List<GameObject> tiles;
 
+    private int startWidth;
+    private int startDepth;
+
     // Start is called before the first frame update
     void Start()
     {
+        startWidth = width;
+        startDepth = depth;
         BuildMap();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (width != startWidth || depth != startDepth)
+        {
+            ResetMap();
+            BuildMap();
+        }
     }
+
+    public void ResetMap()
+    {
+        startWidth = width;
+        startDepth = depth;
+        var tempTile = tiles[0];
+        var size = tiles.Count;
+
+        for (int i = 1; i < size; i++)
+        {
+            Destroy(tiles[i]);
+        }
+
+        tiles.Clear(); // removes all tiles
+        tiles.Add(tempTile);
+    }
+
 
     public void BuildMap()
     {
+        var offset = new Vector3(20.0f, 0.0f, 20.0f);
 
-        // Generate first 3 tile
-        for (int i = 0; i < 3; i++)
+        // generate more tiles if both width and depth are both greater than 2
+        for (int row = 1; row <= depth; row++)
         {
-            var randomPrefabIndex = Random.Range(0, 4);
-            var randomRotation = Quaternion.Euler(0.0f, Random.Range(0, 4) * 90.0f, 0.0f);
-            tiles.Add(Instantiate(tilePrefabs[randomPrefabIndex], Vector3.zero, randomRotation));
-        }
-
-        tiles[0].transform.position = new Vector3(0.0f, 0.0f, 20.0f);
-        tiles[1].transform.position = new Vector3(20.0f, 0.0f, 20.0f);
-        tiles[2].transform.position = new Vector3(20.0f, 0.0f, 0.0f);
-
-
-
-
-
-        for (int row = 0; row < depth; row++)
-        {
-            for (int col = 0; col < width; col++)
+            for (int col = 1; col <= width; col++)
             {
-                
-
-
+                if (row == 1 && col == 1) {continue;}
+                var randomPrefabIndex = Random.Range(0, 4);
+                var randomRotation = Quaternion.Euler(0.0f, Random.Range(0, 4) * 90.0f, 0.0f);
+                var tilePosition = new Vector3(col * 20.0f, 0.0f, row * 20.0f) - offset;
+                tiles.Add(Instantiate(tilePrefabs[randomPrefabIndex], tilePosition , randomRotation, parent));
             }
+
         }
     }
 }
