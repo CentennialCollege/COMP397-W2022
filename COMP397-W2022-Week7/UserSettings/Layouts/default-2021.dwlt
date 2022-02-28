@@ -43,8 +43,8 @@ MonoBehaviour:
     y: 734
     width: 456
     height: 213
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 300}
   m_MaxSize: {x: 24288, y: 24288}
   vertical: 0
-  controlID: 133
+  controlID: 20
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 300}
   m_MaxSize: {x: 8096, y: 24288}
   vertical: 1
-  controlID: 19
+  controlID: 53
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -247,8 +247,8 @@ MonoBehaviour:
     y: 0
     width: 456
     height: 303
-  m_MinSize: {x: 202, y: 221}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -523,22 +523,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/[Scripts]
+    - Assets/Prefabs
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/[Scripts]
+  - Assets/Prefabs
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\tsili\OneDrive\Desktop\Centennial\COMP397\Section-2\W2022\COMP397-W2022-Week7
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 445e0000
-    m_LastClickedID: 24132
-    m_ExpandedIDs: 00000000385e000000ca9a3b
+    m_SelectedIDs: 605e0000
+    m_LastClickedID: 24160
+    m_ExpandedIDs: 00000000405e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -566,7 +566,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000385e0000
+    m_ExpandedIDs: 00000000405e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -597,18 +597,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000be5b0000ac850000000000001aae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Player Material
+      m_OriginalName: Player Material
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 23958
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
@@ -941,9 +941,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 18.126146, y: 10.106941, z: 4.597744}
+    m_Target: {x: 10.547023, y: 9.356297, z: 3.4562979}
     speed: 2
-    m_Value: {x: 18.126146, y: 10.106941, z: 4.597744}
+    m_Value: {x: 10.547023, y: 9.356297, z: 3.4562979}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -994,9 +994,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.45376745, y: -0.0064282864, z: 0.0032674486, w: 0.8910909}
   m_Size:
-    m_Target: 81.45478
+    m_Target: 164.61374
     speed: 2
-    m_Value: 77.94716
+    m_Value: 157.52512
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1055,7 +1055,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 725c0000
       m_LastClickedID: 23666
-      m_ExpandedIDs: acf9ffff26fbffff
+      m_ExpandedIDs: f0f0ffff28fbffff8a5c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
