@@ -234,8 +234,8 @@ MonoBehaviour:
     type: 3}
   goalTile: {fileID: 6685213665888229182, guid: 8d08eb2f7042c634ab8c3d5239156f1e,
     type: 3}
-  width: 2
-  depth: 2
+  width: 3
+  depth: 3
   parent: {fileID: 531065310}
   tiles: []
 --- !u!4 &363292299

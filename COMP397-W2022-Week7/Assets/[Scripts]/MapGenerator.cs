@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
+using UnityEngine.AI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -10,10 +12,10 @@ public class MapGenerator : MonoBehaviour
     public GameObject goalTile;
 
     [Header("Map Properties")] 
-    [Range(2, 30)]
-    public int width = 2;
-    [Range(2, 30)] 
-    public int depth = 2;
+    [Range(3, 30)]
+    public int width = 3;
+    [Range(3, 30)] 
+    public int depth = 3;
     public Transform parent;
 
     [Header("Generated Tiles")] 
@@ -28,6 +30,7 @@ public class MapGenerator : MonoBehaviour
         startWidth = width;
         startDepth = depth;
         BuildMap();
+        BakeNavMeshes();
     }
 
     // Update is called once per frame
@@ -37,6 +40,8 @@ public class MapGenerator : MonoBehaviour
         {
             ResetMap();
             BuildMap();
+            Invoke(nameof(BakeNavMeshes), 0.2f);
+            
         }
     }
 
@@ -92,5 +97,13 @@ public class MapGenerator : MonoBehaviour
         }
 
        
+    }
+
+    public void BakeNavMeshes()
+    {
+        foreach (var tile in tiles)
+        {
+            tile.GetComponent<NavMeshSurface>().BuildNavMesh();
+        }
     }
 }
