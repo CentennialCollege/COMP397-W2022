@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class NetworkPlayerBehaviour : NetworkBehaviour
 {
-    public CharacterController controller;
-
     [Header("Movement")]
     public float maxSpeed = 10.0f;
     public float gravity = -30.0f;
@@ -26,8 +24,7 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
     private float localHorizontalInput;
     private float localVerticalInput;
     private bool localJumpInput;
-  
-
+    
     void Awake()
     {
         
@@ -36,12 +33,18 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (IsLocalPlayer)
+
+        if (!IsLocalPlayer)
         {
-            controller = GetComponent<CharacterController>();
+            GetComponentInChildren<NetworkCameraController>().enabled = false;
+            GetComponentInChildren<Camera>().enabled = false;
         }
 
-        RandomSpawnPositionAndColour();
+        if (IsServer)
+        {
+            RandomSpawnPosition();
+        }
+        
     }
 
     // Update is called once per frame
@@ -53,40 +56,74 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
             ServerUpdate();
         }
 
-        if (IsClient && IsOwner)
+        if (IsOwner)
         {
             // client update
             ClientUpdate();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
+    }
+
+    private void LateUpdate()
+    {
+        if (IsLocalPlayer)
+        {
+            UpdateRotationYServerRPC(transform.eulerAngles.y);
+        }
+    }
+
+    [ServerRpc]
+    void UpdateRotationYServerRPC(float newRotationY)
+    {
+        transform.rotation = Quaternion.Euler(0f, newRotationY, 0f);
     }
 
     private void Move()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundMask);
 
-        if (isGrounded && velocity.y < 0.0f && IsLocalPlayer)
+        if (isGrounded && velocity.y < 0.0f)
         {
             velocity.y = -2.0f;
         }
 
+        Vector3 move = transform.right * remoteHorizontalInput.Value + transform.forward * remoteVerticalInput.Value;
+        GetComponent<CharacterController>().Move(move * maxSpeed * Time.deltaTime);
+
+        if (remoteJumpInput.Value && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+        GetComponent<CharacterController>().Move(velocity * Time.deltaTime);
+
+    }
+
+    void ServerUpdate()
+    {
+        Move();
+    }
+
+    public void RandomSpawnPosition()
+    {
+        var x = Random.Range(-3.0f, 3.0f);
+        var z = Random.Range(-3.0f, 3.0f);
+        transform.position = new Vector3(x, 1.0f, z);
+    }
+
+    public void ClientUpdate()
+    {
         // keyboard Input (fallback)
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         bool isJumping = Input.GetButton("Jump");
 
-
-        if (isJumping && isGrounded && IsLocalPlayer)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
-        }
-
-        if (IsLocalPlayer)
-        {
-            velocity.y += gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
-        }
-        
         // check if local variables have changed
         if (localHorizontalInput != x || localVerticalInput != z || localJumpInput != isJumping)
         {
@@ -97,24 +134,6 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
             // update the client position on the network
             UpdateClientPositionServerRpc(x, z, isJumping);
         }
-    }
-
-    void ServerUpdate()
-    {
-        Vector3 move = transform.right * remoteHorizontalInput.Value + transform.forward * remoteVerticalInput.Value;
-        controller.Move(move * maxSpeed * Time.deltaTime);
-    }
-
-    public void RandomSpawnPositionAndColour()
-    {
-        var x = Random.Range(-3.0f, 3.0f);
-        var z = Random.Range(-3.0f, 3.0f);
-        transform.position = new Vector3(x, 1.0f, z);
-    }
-
-    public void ClientUpdate()
-    {
-        Move();
     }
 
     [ServerRpc]
