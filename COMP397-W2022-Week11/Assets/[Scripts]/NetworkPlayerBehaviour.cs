@@ -45,6 +45,11 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
             // client update
             ClientUpdate();
         }
+
+        if (IsLocalPlayer)
+        {
+
+        }
     }
 
     void ServerUpdate()
@@ -66,8 +71,8 @@ public class NetworkPlayerBehaviour : NetworkBehaviour
         var color = new Color(r, g, b);
         localColor = color;
 
-        var x = Random.Range(-10.0f, 10.0f);
-        var z = Random.Range(-10.0f, 10.0f);
+        var x = Random.Range(-3.0f, 3.0f);
+        var z = Random.Range(-3.0f, 3.0f);
         transform.position = new Vector3(x, 1.0f, z);
     }
 
