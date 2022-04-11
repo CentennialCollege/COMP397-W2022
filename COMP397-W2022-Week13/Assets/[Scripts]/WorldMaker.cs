@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WorldMaker : MonoBehaviour
@@ -33,21 +34,69 @@ public class WorldMaker : MonoBehaviour
     private int startDepth;
     private float startMin;
     private float startMax;
+
+    private Queue<GameObject> pool;
     
     // Start is called before the first frame update
     void Start()
     {
         grid = new List<GameObject>(); // creates a new empty container
 
+        BuildPool();
         Generate();
+    }
+
+    private void CreateTile()
+    {
+        var tile = Instantiate(threeDTile, Vector3.zero, Quaternion.identity);
+        tile.SetActive(false);
+        tile.transform.SetParent(tileParent);
+        pool.Enqueue(tile);
+    }
+
+    private void BuildPool()
+    {
+        pool = new Queue<GameObject>();
+
+        for (int i = 0; i < 80000; i++)
+        {
+            CreateTile();
+        }
+    }
+
+    private GameObject GetTile(Vector3 position = new Vector3())
+    {
+        GameObject tile = null;
+        if (pool.Count < 1)
+        {
+            tile = Instantiate(threeDTile, Vector3.zero, Quaternion.identity);
+            tile.SetActive(false);
+            tile.transform.SetParent(tileParent);
+        }
+        else
+        {
+            tile = pool.Dequeue();
+            tile.SetActive(true);
+        }
+
+        tile.transform.position = position;
+        return tile;
+    }
+
+    private void ReleaseTile(GameObject tile)
+    {
+        this.AddComponent<BoxCollider>();
+        tile.SetActive(false);
+        pool.Enqueue(tile);
     }
 
     private void Generate()
     {
         Initialize();
-        Reset();
         Regenerate();
         Invoke("RemoveInternalTiles", 0.1f);
+        Invoke("CombineMeshes", 0.2f);
+        Invoke("ResetMap",  0.3f);
         PositionPlayer();
     }
 
@@ -93,8 +142,7 @@ public class WorldMaker : MonoBehaviour
 
                     if (y < perlinValue)
                     {
-                        var tile = Instantiate(threeDTile, new Vector3(x, y, z), Quaternion.identity);
-                        tile.transform.parent = tileParent;
+                        var tile = GetTile(new Vector3(x, y, z));
                         grid.Add(tile);
                     }
                 }
@@ -102,11 +150,12 @@ public class WorldMaker : MonoBehaviour
         }
     }
 
-    private void Reset()
+    private void ResetMap()
     {
-        foreach (var tile in grid)
+        var size = grid.Count;
+        for (int i = 0; i < size; i++)
         {
-            Destroy(tile);
+            ReleaseTile(grid[i]);
         }
 
         grid.Clear();
@@ -134,14 +183,44 @@ public class WorldMaker : MonoBehaviour
             }
         }
 
+        foreach (var tile in grid)
+        {
+            Destroy(tile.GetComponent<BoxCollider>());
+        }
+
         var size = tilesToBeRemoved.Count;
         for (int i = 0; i < size; i++)
         {
             grid.Remove(tilesToBeRemoved[i]);
-            Destroy(tilesToBeRemoved[i].gameObject);
+            ReleaseTile(tilesToBeRemoved[i]);
         }
 
         tilesToBeRemoved.Clear();
+    }
+
+    private void CombineMeshes()
+    {
+        var meshFilter = tileParent.GetComponent<MeshFilter>();
+        meshFilter.mesh = new Mesh {indexFormat = UnityEngine.Rendering.IndexFormat.UInt32};
+
+        List<MeshFilter> meshFilters = new List<MeshFilter>(); // all mesh filters from the tiles
+        foreach (var tile in grid)
+        {
+            meshFilters.Add(tile.GetComponent<MeshFilter>());
+        }
+
+        CombineInstance[] combine = new CombineInstance[meshFilters.Count];
+
+        int i = 0;
+        while (i < meshFilters.Count)
+        {
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            i++;
+        }
+
+        meshFilter.mesh.CombineMeshes(combine);
+        tileParent.GetComponent<MeshCollider>().sharedMesh = meshFilter.sharedMesh;
     }
 
     private void PositionPlayer()

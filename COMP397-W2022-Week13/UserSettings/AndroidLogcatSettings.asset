@@ -10,38 +10,38 @@
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "emulator-5554",
-            "name": "ca.centennialcollege.comp397.lab8",
-            "processId": 4139,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "ca.centennialcollege.comp397.lab8",
-            "processId": 4573,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "ca.centennialcollege.comp397.lab8",
-            "processId": 4766,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "ca.centennialcollege.comp397.lab9",
-            "processId": 4641,
-            "exited": true
-        },
-        {
-            "deviceId": "emulator-5554",
-            "name": "ca.centennialcollege.comp397.lab9",
-            "processId": 5160,
+            "name": "ca.centennialcollege.comp397.lab13",
+            "processId": 4538,
             "exited": true
         },
         {
             "deviceId": "emulator-5554",
             "name": "ca.centennialcollege.comp397.lab13",
-            "processId": 3972,
+            "processId": 4733,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "ca.centennialcollege.comp397.lab13",
+            "processId": 4988,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "ca.centennialcollege.comp397.lab13",
+            "processId": 5203,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "ca.centennialcollege.comp397.lab13",
+            "processId": 5409,
+            "exited": true
+        },
+        {
+            "deviceId": "emulator-5554",
+            "name": "ca.centennialcollege.comp397.lab13",
+            "processId": 5688,
             "exited": false
         }
     ],
